@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.PowerMapper">
+
+    <select id="findPowerListByUserId" parameterType="Integer" resultType="domain.Power">       
+       select distinct a.power_id, a.power_name, a.power_url
+	        from power a  
+	  inner join rolepower b on a.power_id=b.power_id  
+	  inner join userrole c on b.role_id=c.role_id  
+	       where c.user_id=#{user_id}
+    </select>
+  
+     <!--查找已经选择的角色  -->
+  <select id="findparentIdByPowerId" parameterType="Integer" resultType="domain.Power">
+select  power_id, power_name, power_url from power where power_id =#{power_id}
+</select>
+
+   <!--查找所有功能  -->
+    <select id="findPowers" parameterType="domain.Power" resultType="domain.Power">
+select * from power
+where 1=1 
+<if test="power_name!=null and !power_name.equals('')"> and power_name=#{power_name}</if>
+</select>
+  
+  
+       <!--增加功能  -->
+   <insert id="addPower" parameterType="domain.Power">
+    insert into power (power_name,power_url)
+    values (#{power_name,jdbcType=VARCHAR},#{power_url,jdbcType=VARCHAR})
+  </insert>
+  
+   <!--修改-->
+ <update id="updatePower" parameterType="domain.Power">
+    update power
+    set power_name = #{power_name},power_url = #{power_url} where power_id = #{power_id}
+  </update>
+  
+    <!--删除功能  -->
+    <delete id="deletePowerById" parameterType="Integer">
+    delete from power
+    where power_id = #{power_id}
+  </delete>
+  
+</mapper>

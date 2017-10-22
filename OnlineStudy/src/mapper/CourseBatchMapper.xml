@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.CourseBatchMapper">
+  <resultMap id="BaseResultMap" type="domain.CourseBatch">
+    <id column="coursebatch_id" jdbcType="INTEGER" property="coursebatch_id" />
+    <result column="batch_id" jdbcType="INTEGER" property="batch_id" />
+    <result column="course_id" jdbcType="INTEGER" property="course_id" />
+  </resultMap>
+
+   <!--增加一条或多条记录 -->
+   <insert id="addCourseBatchIds" parameterType="domain.CourseBatch">
+    insert into coursebatch (batch_id, course_id)
+    values (#{batch_id}, #{course_id})
+  </insert>
+
+<!--根据batch_id查找已选course_id-->
+ <select id="findCourseList" parameterType="Integer" resultType="domain.CourseBatch">
+		SELECT * FROM coursebatch WHERE batch_id=#{batch_id}
+  </select>
+
+
+    <!--根据batch_id删除记录-->
+    <delete id="deleteCourseBatchById" parameterType="java.lang.Integer">
+    delete from coursebatch
+    where batch_id = #{batch_id}
+  </delete>
+ <!--根据course_id删除记录-->
+    <delete id="deletecoursebatchBycourseId" parameterType="java.lang.Integer">
+    delete from coursebatch
+    where course_id = #{course_id}
+  </delete>
+
+
+</mapper>

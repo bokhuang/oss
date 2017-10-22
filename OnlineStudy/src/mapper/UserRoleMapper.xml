@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.UserRoleMapper">
+  <!--寻找这个用户对应的几个角色id-->
+  <select id="findRoleList" parameterType="Integer" resultType="domain.UserRole">
+		SELECT * FROM userrole WHERE user_id=#{user_id}
+  </select>
+  
+   <!--增加一条或多条记录 -->
+   <insert id="addUserRoleIds" parameterType="domain.UserRole">
+    insert into userrole (user_id, role_id)
+    values (#{user_id}, #{role_id})
+  </insert>
+  
+   <!--根据user_id删除一条或多条记录-->
+  <delete id="deleteuserroleByuserId" parameterType="java.lang.Integer">
+    delete from userrole
+    where user_id = #{user_id}
+  </delete>
+  
+     <!--根据role_id删除一条或多条记录 -->
+  <delete id="deleteuserroleByroleId" parameterType="domain.Role">
+    delete from userrole
+    where role_id =#{role_id}
+  </delete>
+ 
+  
+</mapper>

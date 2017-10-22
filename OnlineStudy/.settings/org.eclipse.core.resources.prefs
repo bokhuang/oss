@@ -1,0 +1,13 @@
+eclipse.preferences.version=1
+encoding//WebContent/WEB-INF/jsp/error.jsp=UTF-8
+encoding//WebContent/WEB-INF/jsp/errorop.jsp=UTF-8
+encoding//WebContent/WEB-INF/jsp/modifysuccess.jsp=UTF-8
+encoding//WebContent/WEB-INF/jsp/nopower.jsp=UTF-8
+encoding//WebContent/manager/coursemanager/ReadCourse.jsp=UTF-8
+encoding//WebContent/manager/studymanager/batchStudy.jsp=UTF-8
+encoding//WebContent/manager/studymanager/noteBook.jsp=UTF-8
+encoding//WebContent/manager/studymanager/study.jsp=UTF-8
+encoding//WebContent/manager/usermanager/AddUser.jsp=UTF-8
+encoding//WebContent/manager/usermanager/UpdateUser.jsp=UTF-8
+encoding//WebContent/manager/usermanager/UserQuery.jsp=UTF-8
+encoding/<project>=UTF-8

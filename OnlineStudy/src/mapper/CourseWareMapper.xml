@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.CourseWareMapper">
+  <resultMap id="BaseResultMap" type="domain.CourseWare">
+    <id column="courseware_id" jdbcType="INTEGER" property="courseware_id" />
+    <result column="courseware_name" jdbcType="VARCHAR" property="courseware_name" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+  </resultMap>
+
+<select id="findcheckedCourseWares" parameterType="java.lang.Integer" resultType="domain.CourseWare">
+select * from courseware
+where course_id=#{course_id} 
+</select>
+
+    <!--删除 -->
+    <delete id="deletecourseware" parameterType="java.lang.Integer">
+    delete from courseware
+    where course_id = #{course_id}
+  </delete>
+
+<!--查找所有课件(可根据课件名和课程名查)-->  
+<select id="findCourseWares" parameterType="domain.CWareCourseChoice" resultType="domain.CWareCourseChoice">
+ select a.courseware_id,a.courseware_name,a.url,b.course_name
+	        from courseware a  
+	  inner join course b on a.course_id=b.course_id   
+	       where 1=1
+<if test="courseware_name!=null and !courseware_name.equals('')"> and courseware_name=#{courseware_name}</if>
+<if test="course_name!=null and !course_name.equals('')"> and course_name=#{course_name}</if>
+</select>
+
+  <!--增加课件-->
+ <insert id="addCourseWare" parameterType="domain.CourseWare">
+    insert into courseware(courseware_name,url,course_id)
+    values (#{courseware_name,jdbcType=VARCHAR},#{url,jdbcType=VARCHAR},#{course_id,jdbcType=INTEGER})
+  </insert>
+  
+  
+<!--修改找id-->  
+<select id="findCourseWareById" parameterType="Integer" resultType="domain.CWareCourseChoice">
+ select a.courseware_id,a.courseware_name, a.url,b.course_name
+	        from courseware a  
+	  inner join course b on a.course_id=b.course_id   
+	       where courseware_id=#{courseware_id}
+</select>
+
+
+<!--根据课程id找课件-->
+<select id="findOneCourseWares" parameterType="Integer" resultType="domain.CourseWare">
+ select * from courseware  where course_id=#{course_id}
+</select>
+
+
+  <!--修改-->
+ <update id="updateCourseWare" parameterType="domain.CourseWare">
+    update courseware
+    set courseware_name = #{courseware_name},url = #{url},course_id =#{course_id } where courseware_id = #{courseware_id}
+  </update>
+
+    <!--删除  -->
+    <delete id="deleteCourseWare" parameterType="java.lang.Integer">
+    delete from courseware
+    where courseware_id = #{courseware_id}
+  </delete>
+
+
+</mapper>

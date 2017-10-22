@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.CourseMapper">
+  <resultMap id="BaseResultMap" type="domain.Course">
+    <id column="course_id" jdbcType="INTEGER" property="course_id" />
+    <result column="course_name" jdbcType="VARCHAR" property="course_name" />
+  </resultMap>
+  
+   <!--查找课程列表-->
+  <select id="findallcourses" parameterType="domain.Course" resultType="domain.Course">
+SELECT * FROM course
+where 1=1 
+<if test="course_name!=null and !course_name.equals('')"> and course_name=#{course_name}</if>
+</select>
+  
+  
+<!--增加课程  -->
+ <insert id="addCourse" parameterType="domain.Course">
+    insert into course(course_name)
+    values (#{course_name,jdbcType=VARCHAR})
+  </insert>
+  
+  <!--修改课程 找id -->
+    <select id="findCourseById" parameterType="java.lang.Integer" resultType="domain.Course">
+SELECT * FROM course
+where course_id = #{course_id} 
+</select>
+
+  
+  
+  <!--修改-->
+       <update id="updateCourse" parameterType="domain.Course">
+    update course
+    set course_name = #{course_name} where course_id = #{course_id}
+  </update>
+
+  
+    <!--删除 -->
+    <delete id="deleteCourseById" parameterType="java.lang.Integer">
+    delete from course
+    where course_id = #{course_id}
+  </delete>
+  
+  
+</mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.RecorderMapper">
+   <!--申请，flag为1-->
+       <update id="changeFlag" parameterType="Integer">
+    update recorder
+    set flag =1
+    where recorder_id = #{recorder_id}
+  </update>
+
+  
+  <!--撤销，flag为0-->
+     <update id="updateFlag" parameterType="Integer">
+    update recorder
+    set flag =0
+    where recorder_id = #{recorder_id}
+  </update>
+  
+     <!--申请批次时插入所有批次记录信息-->
+ <insert id="insertrecord" parameterType="domain.Recorder">
+    insert into recorder(batch_id,user_id)
+    values (#{batch_id,jdbcType=INTEGER},#{user_id,jdbcType=INTEGER})
+  </insert>
+
+  <!--学习记录查询 -->
+  <select id="checknote" parameterType="Integer" resultType="domain.BatchRecorder">
+select a.recorder_id,a.batch_id,a.progress,a.flag,b.statement,b.batch_name
+	        from recorder a  
+	  inner join batch b on a.batch_id=b.batch_id  
+	       where a.user_id=#{user_id} AND b.statement=1 AND a.flag=1
+  </select>
+  <!--更新进度progress-->
+     <update id="changeProgress" parameterType="domain.Recorder">
+    update recorder
+    set progress=#{progress}
+    where user_id = #{user_id} and batch_id = #{batch_id}
+  </update>
+
+</mapper>

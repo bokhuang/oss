@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.BatchMapper">
+     <!--查找批次列表-->
+  <select id="findBatchs" parameterType="domain.CourseBatchChoice" resultType="domain.CourseBatchChoice">
+SELECT * FROM batch
+where 1=1 
+<if test="batch_name!=null and !batch_name.equals('')"> and batch_name=#{batch_name}</if>
+</select>
+  
+       <!--查找批次记录列表，看用户是否有学习记录-->
+  <select id="findRecord" parameterType="domain.BatchRecorder" resultType="domain.BatchRecorder">
+ select a.batch_id,a.batch_name,a.statement,b.flag,b.recorder_id
+	        from batch a  
+	  left join recorder b on a.batch_id=b.batch_id   
+	       where b.user_id=#{user_id}
+<if test="batch_name!=null and !batch_name.equals('')"> and batch_name=#{batch_name}</if>
+</select>
+  
+    <!--增加批次 -->
+ <insert id="addBatch" parameterType="domain.CourseBatchChoice">
+    insert into batch (batch_name,statement)
+    values (#{batch_name,jdbcType=VARCHAR},#{statement,jdbcType=INTEGER})
+  </insert>
+  
+      <!--查找一条角色记录-->
+ <select id="findoneBatch" parameterType="domain.CourseBatchChoice" resultType="domain.CourseBatchChoice">
+SELECT * FROM batch
+where batch_name=#{batch_name}
+</select>
+   <select id="findbatchbyBatchId" parameterType="java.lang.Integer" resultType="domain.Batch">
+SELECT * FROM batch
+where batch_id=#{batch_id}
+</select>
+  
+   <!--修改-->
+ <update id="updateBatch" parameterType="domain.CourseBatchChoice">
+    update batch
+    set batch_name = #{batch_name},statement = #{statement} where batch_id = #{batch_id}
+  </update>
+  
+     <!--激活批次-->
+ <update id="updateStatement" parameterType="domain.CourseBatchChoice">
+    update batch
+    set statement = #{statement} where batch_id = #{batch_id}
+  </update>
+  
+  
+    <!--删除  -->
+    <delete id="deleteBatchById" parameterType="java.lang.Integer">
+    delete from batch
+    where batch_id = #{batch_id}
+  </delete>
+  
+  
+</mapper>

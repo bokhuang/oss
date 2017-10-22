@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.RolePowerMapper">
+  <resultMap id="BaseResultMap" type="domain.RolePower">
+    <id column="rp_id" jdbcType="INTEGER" property="rp_id" />
+    <result column="role_id" jdbcType="INTEGER" property="role_id" />
+    <result column="power_id" jdbcType="INTEGER" property="power_id" />
+  </resultMap>
+  <!-- 查找所有角色id对应的所有功能id -->
+   <select id="findpowerList" resultType="domain.RolePower">
+        select *
+        from rolepower
+        where role_id in
+        <foreach collection="list" item="role_id" index="index"
+            open="(" close=")" separator=",">
+            #{role_id}
+        </foreach>
+    </select>
+  
+  <!--根据role_id查找已选power_id-->
+   <select id="findPowerList" parameterType="Integer" resultType="domain.RolePower">
+		SELECT * FROM rolepower WHERE role_id=#{role_id}
+  </select>
+  
+  
+    <!--根据role_id删除记录-->
+    <delete id="deleteRolepowerById" parameterType="java.lang.Integer">
+    delete from rolepower
+    where role_id = #{role_id}
+  </delete>
+  
+  
+      <!--根据power_id删除记录-->
+    <delete id="deleterolepowerBypowerId" parameterType="java.lang.Integer">
+    delete from rolepower
+    where power_id = #{power_id}
+  </delete>
+  
+    <!--增加角色，同时增加角色功能 -->
+   <insert id="addRolePowerIds" parameterType="domain.RolePower">
+    insert into rolepower (role_id,power_id)
+    values (#{role_id}, #{power_id})
+  </insert>
+  
+  
+</mapper>
